@@ -59,3 +59,8 @@ form label {
   font-weight: bold;
   color: maroon;
 }
+
+/*Background colour for table header in movies*/
+table#movies th.hilite {
+  background-color: yellow;
+}
