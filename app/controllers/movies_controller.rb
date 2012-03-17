@@ -7,11 +7,11 @@ class MoviesController < ApplicationController
   end
 
   def index
-    #Probably using flash instead of session is sufficient
+    # potentially redirects to make params contain all infos
+    params_to_save = ['ratings', 'sort_by']
+    update_params_with_session_params(params_to_save)
+
     @all_ratings = Movie.ratings
-
-    #session.update(params)
-
     @sort_by = params[:sort_by]
     if params[:ratings] == nil
       @ratings_to_display = @all_ratings
@@ -48,6 +48,26 @@ class MoviesController < ApplicationController
     @movie.destroy
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
+  end
+
+  def update_params_with_session_params(params_to_save)
+    # expects an iterable
+
+    session.update(params.slice(*params_to_save))
+
+    using_stored_params = false
+    params_to_save.each do |param|
+      if session.include? param and not params.include? param
+        params[param] = session[param]
+        using_stored_params = true
+      end
+    end
+
+    if using_stored_params
+      #keep RESTfulness
+      redirect_to movies_path(params)
+      return
+    end
   end
 
 end
