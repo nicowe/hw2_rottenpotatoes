@@ -12,10 +12,10 @@
   %thead
     %tr
       %th{class: @sort_by == 'title' && "hilite"}
-        %a#title_header{:href => movies_path(:sort_by => :title)}Movie Title
+        %a#title_header{:href => movies_path(:sort_by => :title, :ratings => params[:ratings])}Movie Title
       %th Rating
       %th{class: @sort_by == 'release_date' && "hilite"}
-        %a#release_date_header{:href => movies_path(:sort_by => :release_date)}Release Date
+        %a#release_date_header{:href => movies_path(:sort_by => :release_date, :ratings => params[:ratings])}Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|
@@ -26,3 +26,4 @@
         %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path
+%div=params

@@ -10,13 +10,13 @@ class MoviesController < ApplicationController
     #Probably using flash instead of session is sufficient
     @all_ratings = Movie.ratings
 
-    session.update(params)
+    #session.update(params)
 
-    @sort_by = session[:sort_by]
-    if session[:ratings] == nil
+    @sort_by = params[:sort_by]
+    if params[:ratings] == nil
       @ratings_to_display = @all_ratings
     else
-      @ratings_to_display = session[:ratings].keys
+      @ratings_to_display = params[:ratings].keys
     end
 
     @movies = Movie.where(:rating => @ratings_to_display).order(@sort_by)
